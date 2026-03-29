@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Chess Game</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Left sidebar: captured pieces for Black (pieces captured by White) -->
+    <aside class="sidebar sidebar--left">
+      <h2 class="sidebar__title">Captured by White</h2>
+      <div id="captured-by-white" class="captured-pieces"></div>
+    </aside>
+
+    <!-- Main game area -->
+    <main class="game-area">
+      <header class="game-header">
+        <h1 class="game-title">♟ Online Chess</h1>
+        <div id="status-bar" class="status-bar">
+          <span id="turn-indicator" class="turn-indicator">White's Turn</span>
+          <span id="check-indicator" class="check-indicator hidden">CHECK!</span>
+        </div>
+      </header>
+
+      <!-- Rank labels left -->
+      <div class="board-wrapper">
+        <div class="rank-labels" id="rank-labels"></div>
+        <div id="chessboard" class="chessboard" role="grid" aria-label="Chess board"></div>
+        <div class="file-labels" id="file-labels"></div>
+      </div>
+
+      <footer class="game-footer">
+        <button id="btn-restart" class="btn btn--primary">↺ Restart Game</button>
+        <button id="btn-undo" class="btn btn--secondary">← Undo Move</button>
+      </footer>
+    </main>
+
+    <!-- Right sidebar: move history -->
+    <aside class="sidebar sidebar--right">
+      <h2 class="sidebar__title">Move History</h2>
+      <ol id="move-history" class="move-history" reversed></ol>
+      <h2 class="sidebar__title sidebar__title--bottom">Captured by Black</h2>
+      <div id="captured-by-black" class="captured-pieces"></div>
+    </aside>
+  </div>
+
+  <script src="js/pieces.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
