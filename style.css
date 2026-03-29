@@ -1,0 +1,364 @@
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── App wrapper ──────────────────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 16px 8px;
+  gap: 16px;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+header h1 {
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: #f0d060;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  text-align: center;
+}
+
+/* ── Main layout ──────────────────────────────────────────────── */
+main {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Side panels ──────────────────────────────────────────────── */
+.side-panel {
+  background: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 10px;
+  padding: 14px;
+  width: 170px;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.side-panel h2 {
+  font-size: .9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #f0d060;
+  border-bottom: 1px solid #0f3460;
+  padding-bottom: 6px;
+}
+
+/* ── Captured pieces ──────────────────────────────────────────── */
+.captured-pieces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  min-height: 40px;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* ── Move history ─────────────────────────────────────────────── */
+#move-history {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 340px;
+  scrollbar-width: thin;
+  scrollbar-color: #0f3460 transparent;
+}
+
+#history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+
+#history-table th {
+  color: #f0d060;
+  text-align: left;
+  padding: 2px 4px;
+  border-bottom: 1px solid #0f3460;
+}
+
+#history-table td {
+  padding: 2px 4px;
+  color: #ccc;
+}
+
+#history-table tr:nth-child(even) td {
+  background: rgba(255,255,255,.03);
+}
+
+/* ── Game center ──────────────────────────────────────────────── */
+#game-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Status bar ───────────────────────────────────────────────── */
+#status-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#turn-indicator {
+  color: #f0d060;
+}
+
+#check-indicator {
+  background: #c0392b;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: .85rem;
+  animation: pulse 0.6s infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to   { opacity: .5; }
+}
+
+/* ── Board wrapper (rank + file labels) ───────────────────────── */
+#board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#board-row {
+  display: flex;
+}
+
+#rank-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 560px;             /* matches board height */
+  width: 20px;
+  font-size: .75rem;
+  color: #999;
+  user-select: none;
+  text-align: center;
+}
+
+/* ── Chess Board ──────────────────────────────────────────────── */
+#board {
+  display: grid;
+  grid-template-columns: repeat(8, 70px);
+  grid-template-rows:    repeat(8, 70px);
+  border: 3px solid #0f3460;
+  border-radius: 4px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.7);
+  overflow: hidden;
+}
+
+/* ── Squares ──────────────────────────────────────────────────── */
+.square {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s;
+  user-select: none;
+}
+
+.square.light { background: #f0d9b5; }
+.square.dark  { background: #b58863; }
+
+/* Highlights */
+.square.selected        { background: #7fc97f !important; }
+.square.legal-move      { background: #c6e27a !important; }
+.square.legal-capture   { background: #e07070 !important; }
+.square.last-move-from  { background: #cdd46a !important; }
+.square.last-move-to    { background: #aac244 !important; }
+.square.in-check        { background: #e74c3c !important; }
+
+/* legal-move dot indicator */
+.square.legal-move::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(0,0,0,.2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.square.legal-capture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 4px solid rgba(0,0,0,.25);
+  border-radius: 0;
+  pointer-events: none;
+}
+
+/* ── Pieces ───────────────────────────────────────────────────── */
+.piece {
+  font-size: 3rem;
+  line-height: 1;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.1s;
+  filter: drop-shadow(1px 2px 2px rgba(0,0,0,.5));
+}
+
+.piece:active { cursor: grabbing; transform: scale(1.15); }
+
+/* Dragging ghost */
+.piece.dragging { opacity: 0.4; }
+
+/* ── File labels ──────────────────────────────────────────────── */
+#file-labels {
+  display: flex;
+  width: 560px;          /* matches board width */
+  justify-content: space-around;
+  padding: 4px 0 0;
+  font-size: .75rem;
+  color: #999;
+  user-select: none;
+}
+
+/* ── Controls ─────────────────────────────────────────────────── */
+#controls {
+  display: flex;
+  gap: 12px;
+}
+
+#controls button {
+  background: #0f3460;
+  color: #f0d060;
+  border: 1px solid #1a6fa8;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: .9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+#controls button:hover  { background: #1a6fa8; }
+#controls button:active { transform: scale(.97); }
+
+/* ── Modals ───────────────────────────────────────────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+  background: #16213e;
+  border: 2px solid #0f3460;
+  border-radius: 12px;
+  padding: 28px 36px;
+  text-align: center;
+  min-width: 300px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.8);
+}
+
+.modal-content h2, .modal-content h3 {
+  color: #f0d060;
+  margin-bottom: 12px;
+}
+
+.modal-content p {
+  color: #ccc;
+  margin-bottom: 18px;
+}
+
+/* Promotion choices */
+#promotion-choices {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.promo-btn {
+  font-size: 2.8rem;
+  background: #0f3460;
+  border: 2px solid #1a6fa8;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  color: inherit;
+}
+
+.promo-btn:hover  { background: #1a6fa8; }
+.promo-btn:active { transform: scale(.95); }
+
+/* Game-over new-game button */
+#btn-new-game {
+  background: #0f3460;
+  color: #f0d060;
+  border: 1px solid #1a6fa8;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+#btn-new-game:hover { background: #1a6fa8; }
+
+/* ── Drag over target ─────────────────────────────────────────── */
+.square.drag-over {
+  outline: 3px solid #f0d060;
+  outline-offset: -3px;
+}
+
+/* ── Utilities ────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  #board {
+    grid-template-columns: repeat(8, 52px);
+    grid-template-rows:    repeat(8, 52px);
+  }
+  .square  { width: 52px; height: 52px; }
+  .piece   { font-size: 2.2rem; }
+  #rank-labels { height: 416px; }
+  #file-labels { width: 416px; }
+  .side-panel  { width: 140px; min-height: auto; }
+}
+
+@media (max-width: 680px) {
+  main { flex-direction: column; align-items: center; }
+  .side-panel { width: 100%; min-height: auto; flex-direction: row; flex-wrap: wrap; }
+  .side-panel h2 { width: 100%; }
+}

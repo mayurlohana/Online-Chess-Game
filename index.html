@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Chess Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>♟ Online Chess Game</h1>
+    </header>
+
+    <main>
+      <!-- Left panel: captured pieces (Black's captures) -->
+      <aside id="panel-left" class="side-panel">
+        <h2>Captured by White</h2>
+        <div id="captured-white" class="captured-pieces"></div>
+      </aside>
+
+      <!-- Center: board + status bar -->
+      <section id="game-center">
+        <div id="status-bar">
+          <span id="turn-indicator">White's Turn</span>
+          <span id="check-indicator" class="hidden">Check!</span>
+        </div>
+
+        <div id="board-wrapper">
+          <!-- Rank labels (left) -->
+          <div id="rank-labels" class="labels">
+            <span>8</span><span>7</span><span>6</span><span>5</span>
+            <span>4</span><span>3</span><span>2</span><span>1</span>
+          </div>
+
+          <!-- Chess board -->
+          <div id="board"></div>
+
+          <!-- File labels (bottom) -->
+          <div id="file-labels" class="labels">
+            <span>a</span><span>b</span><span>c</span><span>d</span>
+            <span>e</span><span>f</span><span>g</span><span>h</span>
+          </div>
+        </div>
+
+        <div id="controls">
+          <button id="btn-restart">↺ Restart</button>
+          <button id="btn-flip">⇅ Flip Board</button>
+        </div>
+      </section>
+
+      <!-- Right panel: move history -->
+      <aside id="panel-right" class="side-panel">
+        <h2>Move History</h2>
+        <div id="move-history">
+          <table id="history-table">
+            <thead>
+              <tr><th>#</th><th>White</th><th>Black</th></tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+
+        <h2>Captured by Black</h2>
+        <div id="captured-black" class="captured-pieces"></div>
+      </aside>
+    </main>
+
+    <!-- Promotion modal -->
+    <div id="promotion-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Promote Pawn</h3>
+        <div id="promotion-choices"></div>
+      </div>
+    </div>
+
+    <!-- Game-over overlay -->
+    <div id="game-over-overlay" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="game-over-title"></h2>
+        <p id="game-over-message"></p>
+        <button id="btn-new-game">New Game</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="chess.js"></script>
+</body>
+</html>
