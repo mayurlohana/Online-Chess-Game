@@ -90,6 +90,9 @@ Board
 ## Screenshots
 
 The board renders in the browser with all pieces in their starting positions, a dark-themed UI with sidebars for move history and captured pieces, and a status bar showing whose turn it is.
+<img width="1199" height="748" alt="Screenshot 2026-04-16 at 6 14 41 PM" src="https://github.com/user-attachments/assets/065246ee-ba5f-4da6-b402-671ebfadd1ea" />
+<img width="1178" height="741" alt="Screenshot 2026-04-16 at 6 14 59 PM" src="https://github.com/user-attachments/assets/fcf366ee-b590-4194-9da4-307d0a392d7f" />
+
 
 ---
 
